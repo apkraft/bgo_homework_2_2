@@ -1,5 +1,7 @@
 package card
 
+import "strings"
+
 type Card struct {
 	Id       int64
 	Issuer   string
@@ -24,11 +26,19 @@ func (s *Service) NewCard(card *Card) {
 }
 
 func (s *Service) FindCardByNumber(number string) (card *Card) {
-	for _, card := range s.Cards {
-		if number == card.Number {
-			return card
+	if checkIfWeAreCardIssuer(number)
+		for _, card := range s.Cards {
+			if number == card.Number {
+				return card
+			}
 		}
 	}
-
 	return nil
+}
+
+func (s *Service) checkIfWeAreCardIssuer(number string) bool {
+	if strings.HasPrefix(number, s.Issuer) {
+		return true
+	}
+	return false
 }

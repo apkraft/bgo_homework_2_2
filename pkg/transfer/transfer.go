@@ -7,7 +7,9 @@ import (
 )
 
 var (
-	errNotEnoughMoney = errors.New("There is not enough money on the card.")
+	errNotEnoughMoney   = errors.New("There is not enough money on the card.")
+	errFromCardNotFound = errors.New("Card to transfer from not found.")
+	errToCardNotFound   = errors.New("Card to transfer to not found.")
 )
 
 type Fee struct {
@@ -45,12 +47,12 @@ func (s *Service) Card2Card(fromCard, toCard string, amount int64) (totalWithdra
 
 	if transferFromCard == nil && transferToCard != nil {
 		transferToCard.Balance += amount
-		return totalWithdrawal, nil
+		return totalWithdrawal, errFromCardNotFound
 	}
 
 	if transferFromCard != nil && transferToCard == nil && transferFromCard.Balance >= totalWithdrawal {
 		transferFromCard.Balance -= totalWithdrawal
-		return totalWithdrawal, nil
+		return totalWithdrawal, errToCardNotFound
 	}
 
 	if transferFromCard.Balance < totalWithdrawal {

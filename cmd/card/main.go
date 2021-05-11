@@ -26,13 +26,13 @@ func main() {
 	transferSvc := transfer.NewService(cardService, insideTheBank, toAnotherBank, betweenOtherBanks)
 
 	cardService.NewCard(&card.Card{
-		Issuer:   "Visa",
+		Issuer:   "510621",
 		Balance:  100_00,
 		Currency: "RUB",
 		Number:   "1234",
 	})
 	cardService.NewCard(&card.Card{
-		Issuer:   "Visa",
+		Issuer:   "510621",
 		Balance:  100_00,
 		Currency: "RUB",
 		Number:   "5678",
