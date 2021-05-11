@@ -58,7 +58,7 @@ func TestService_Card2Card(t *testing.T) {
 		fields    fields
 		args      args
 		wantTotal int64
-		wantOk    bool
+		wantError error
 	}{
 		{
 			name: "Перевод внутри банка, денег достаточно",
@@ -71,7 +71,7 @@ func TestService_Card2Card(t *testing.T) {
 				amount:   10_00,
 			},
 			wantTotal: 10_00,
-			wantOk:    true,
+			wantError: nil,
 		},
 		{
 			name: "Перевод внутри банка, денег недостаточно",
@@ -84,7 +84,7 @@ func TestService_Card2Card(t *testing.T) {
 				amount:   500_00,
 			},
 			wantTotal: 500_00,
-			wantOk:    false,
+			wantError: errNotEnoughMoney,
 		},
 		{
 			name: "Перевод в другой банк, денег достаточно",
@@ -97,7 +97,7 @@ func TestService_Card2Card(t *testing.T) {
 				amount:   10_00,
 			},
 			wantTotal: 20_00,
-			wantOk:    true,
+			wantError: nil,
 		},
 		{
 			name: "Перевод в другой банк, денег недостаточно",
@@ -110,7 +110,7 @@ func TestService_Card2Card(t *testing.T) {
 				amount:   500_00,
 			},
 			wantTotal: 525_00,
-			wantOk:    false,
+			wantError: errNotEnoughMoney,
 		},
 		{
 			name: "Перевод из другого банка",
@@ -123,7 +123,7 @@ func TestService_Card2Card(t *testing.T) {
 				amount:   500_00,
 			},
 			wantTotal: 575_00,
-			wantOk:    true,
+			wantError: nil,
 		},
 		{
 			name: "Перевод между другими банками",
@@ -136,18 +136,18 @@ func TestService_Card2Card(t *testing.T) {
 				amount:   500_00,
 			},
 			wantTotal: 575_00,
-			wantOk:    true,
+			wantError: nil,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			gotTotal, gotOk := transferService.Card2Card(tt.args.fromCard, tt.args.toCard, tt.args.amount)
-			t.Log(gotTotal, tt.wantTotal, gotOk, tt.wantOk)
+			t.Log(gotTotal, tt.wantTotal, gotOk, tt.wantError)
 			if gotTotal != tt.wantTotal {
 				t.Errorf("Card2Card() gotTotal = %v, want %v", gotTotal, tt.wantTotal)
 			}
-			if gotOk != tt.wantOk {
-				t.Errorf("Card2Card() gotOk = %v, want %v", gotOk, tt.wantOk)
+			if gotOk != tt.wantError {
+				t.Errorf("Card2Card() gotOk = %v, want %v", gotOk, tt.wantError)
 			}
 		})
 	}
