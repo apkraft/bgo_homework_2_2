@@ -9,7 +9,7 @@ import (
 
 func main() {
 
-	cardService := card.NewService("The Bank")
+	cardSvc := card.NewService("The Bank")
 
 	insideTheBank := transfer.Fee{
 		FeeInPercents:  0,
@@ -23,33 +23,33 @@ func main() {
 		FeeInPercents:  15,
 		MinFeeInCopeks: 30_00,
 	}
-	transferSvc := transfer.NewService(cardService, insideTheBank, toAnotherBank, betweenOtherBanks)
+	transferSvc := transfer.NewService(cardSvc, insideTheBank, toAnotherBank, betweenOtherBanks)
 
-	cardService.NewCard(&card.Card{
+	cardSvc.NewCard(&card.Card{
 		Issuer:   "510621",
 		Balance:  100_00,
 		Currency: "RUB",
-		Number:   "1234",
+		Number:   "51062115",
 	})
-	cardService.NewCard(&card.Card{
+	cardSvc.NewCard(&card.Card{
 		Issuer:   "510621",
 		Balance:  100_00,
 		Currency: "RUB",
-		Number:   "5678",
+		Number:   "51062123",
 	})
 
-	amount, status := transferSvc.Card2Card("1234", "5678", 10_00)
+	amount, status := transferSvc.Card2Card("51062115", "51062123", 10_00)
 	fmt.Printf("Внутри банка: сумма с комиссией - %v, статус - %v\n\n", amount, status)
 
-	amount, status = transferSvc.Card2Card("1234", "56789", 10_00)
+	amount, status = transferSvc.Card2Card("51062115", "56789", 10_00)
 	fmt.Printf("В другой банк: сумма с комиссией - %v, статус - %v\n\n", amount, status)
 
 	amount, status = transferSvc.Card2Card("12349", "56789", 10_00)
 	fmt.Printf("Между другими банками: сумма с комиссией - %v, статус - %v\n\n", amount, status)
 
-	amount, status = transferSvc.Card2Card("1234", "5678", 500_00)
+	amount, status = transferSvc.Card2Card("51062115", "51062123", 500_00)
 	fmt.Printf("Недостаточно средств для перевода внутри банка: сумма с комиссией - %v, статус - %v\n\n", amount, status)
 
-	amount, status = transferSvc.Card2Card("1234", "56789", 500_00)
+	amount, status = transferSvc.Card2Card("51062115", "56789", 500_00)
 	fmt.Printf("Недостаточно средств для перевода в другой банк: сумма с комиссией - %v, статус - %v\n\n", amount, status)
 }

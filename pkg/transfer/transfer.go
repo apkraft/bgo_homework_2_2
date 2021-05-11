@@ -7,9 +7,10 @@ import (
 )
 
 var (
-	errNotEnoughMoney   = errors.New("There is not enough money on the card.")
-	errFromCardNotFound = errors.New("Card to transfer from not found.")
-	errToCardNotFound   = errors.New("Card to transfer to not found.")
+	errNotEnoughMoney    = errors.New("There is not enough money on the card.")
+	errFromCardNotFound  = errors.New("Card to transfer from not found.")
+	errToCardNotFound    = errors.New("Card to transfer to not found.")
+	errInvalidCardNumber = errors.New("Incorrect card number.")
 )
 
 type Fee struct {
@@ -34,6 +35,11 @@ func NewService(cardSvc *card.Service, insideTheBank Fee, toAnotherBank Fee, bet
 }
 
 func (s *Service) Card2Card(fromCard, toCard string, amount int64) (totalWithdrawal int64, e error) {
+
+	if !s.CardSvc.LunaCardNumberCheck(fromCard) || !s.CardSvc.LunaCardNumberCheck(toCard) {
+		e = errInvalidCardNumber
+		return totalWithdrawal, e
+	}
 
 	transferFromCard := s.CardSvc.FindCardByNumber(fromCard)
 	transferToCard := s.CardSvc.FindCardByNumber(toCard)

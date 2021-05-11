@@ -17,7 +17,7 @@ func TestService_Card2Card(t *testing.T) {
 		amount   int64
 	}
 
-	cardService := card.NewService("The Bank")
+	cardSvc := card.NewService("The Bank")
 
 	insideTheBank := Fee{
 		FeeInPercents:  0,
@@ -32,21 +32,21 @@ func TestService_Card2Card(t *testing.T) {
 		MinFeeInCopeks: 30_00,
 	}
 
-	transferService := NewService(cardService, insideTheBank, toAnotherBank, betweenOtherBanks)
+	transferService := NewService(cardSvc, insideTheBank, toAnotherBank, betweenOtherBanks)
 
-	cardService.NewCard(&card.Card{
+	cardSvc.NewCard(&card.Card{
 		Issuer:   "Visa",
 		Balance:  100_00,
 		Currency: "RUB",
 		Number:   "5106211234",
 	})
-	cardService.NewCard(&card.Card{
+	cardSvc.NewCard(&card.Card{
 		Issuer:   "Visa",
 		Balance:  100_00,
 		Currency: "RUB",
 		Number:   "5106215678",
 	})
-	cardService.NewCard(&card.Card{
+	cardSvc.NewCard(&card.Card{
 		Issuer:   "Visa",
 		Balance:  100_00,
 		Currency: "RUB",
@@ -66,8 +66,8 @@ func TestService_Card2Card(t *testing.T) {
 				TransferService: transferService,
 			},
 			args: args{
-				fromCard: "5106211234",
-				toCard:   "5106215678",
+				fromCard: "51062115",
+				toCard:   "51062123",
 				amount:   10_00,
 			},
 			wantTotal: 10_00,
@@ -79,8 +79,8 @@ func TestService_Card2Card(t *testing.T) {
 				TransferService: transferService,
 			},
 			args: args{
-				fromCard: "5106215678",
-				toCard:   "5106219012",
+				fromCard: "51062115",
+				toCard:   "51062123",
 				amount:   500_00,
 			},
 			wantTotal: 500_00,
@@ -92,7 +92,7 @@ func TestService_Card2Card(t *testing.T) {
 				TransferService: transferService,
 			},
 			args: args{
-				fromCard: "5106215678",
+				fromCard: "51062115",
 				toCard:   "90129",
 				amount:   10_00,
 			},
@@ -105,7 +105,7 @@ func TestService_Card2Card(t *testing.T) {
 				TransferService: transferService,
 			},
 			args: args{
-				fromCard: "5106215678",
+				fromCard: "51062115",
 				toCard:   "90129",
 				amount:   500_00,
 			},
@@ -119,7 +119,7 @@ func TestService_Card2Card(t *testing.T) {
 			},
 			args: args{
 				fromCard: "56789",
-				toCard:   "5106219012",
+				toCard:   "51062123",
 				amount:   500_00,
 			},
 			wantTotal: 575_00,

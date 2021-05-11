@@ -1,6 +1,9 @@
 package card
 
-import "strings"
+import (
+	"strconv"
+	"strings"
+)
 
 type Card struct {
 	Id       int64
@@ -26,19 +29,39 @@ func (s *Service) NewCard(card *Card) {
 }
 
 func (s *Service) FindCardByNumber(number string) (card *Card) {
-	if checkIfWeAreCardIssuer(number)
-		for _, card := range s.Cards {
-			if number == card.Number {
-				return card
-			}
+	for _, card := range s.Cards {
+		if number == card.Number && strings.HasPrefix(number, card.Issuer) {
+			return card
 		}
 	}
 	return nil
 }
 
-func (s *Service) checkIfWeAreCardIssuer(number string) bool {
-	if strings.HasPrefix(number, s.Issuer) {
-		return true
+func (s *Service) LunaCardNumberCheck(number string) bool {
+	reversedCardNumber := reverseCardNumber(number)
+	cardNumberDigits := strings.Split(strings.ReplaceAll(reversedCardNumber, " ", ""), "")
+	sum := 0
+
+	for digitPlace := range cardNumberDigits {
+		if digit, e := strconv.Atoi(cardNumberDigits[digitPlace]); e == nil {
+			if (digitPlace+1)%2 != 0 {
+				digit = digit * 2
+				if digit > 9 {
+					digit = digit - 9
+				}
+			}
+			sum += digit
+		} else {
+			return false
+		}
 	}
-	return false
+	return sum%10 == 0
+}
+
+func reverseCardNumber(cardNumber string) string {
+	runes := []rune(cardNumber)
+	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
+		runes[i], runes[j] = runes[j], runes[i]
+	}
+	return string(runes)
 }
