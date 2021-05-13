@@ -3,7 +3,7 @@ package transfer
 import (
 	"testing"
 
-	"github.com/apkraft/bgo_homework_2_1/pkg/card"
+	"github.com/apkraft/bgo_homework_2_2/pkg/card"
 )
 
 func TestService_Card2Card(t *testing.T) {

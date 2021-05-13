@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/apkraft/bgo_homework_2_1/pkg/card"
-	"github.com/apkraft/bgo_homework_2_1/pkg/transfer"
+	"github.com/apkraft/bgo_homework_2_2/pkg/card"
+	"github.com/apkraft/bgo_homework_2_2/pkg/transfer"
 )
 
 func main() {
