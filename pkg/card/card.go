@@ -30,6 +30,7 @@ func (s *Service) NewCard(card *Card) {
 
 func (s *Service) FindCardByNumber(number string) (card *Card) {
 	for _, card := range s.Cards {
+		println(card.Number, card.Balance, card.Issuer, strings.HasPrefix(number, card.Issuer))
 		if number == card.Number && strings.HasPrefix(number, card.Issuer) {
 			return card
 		}
@@ -43,8 +44,8 @@ func (s *Service) LunaCardNumberCheck(number string) bool {
 	sum := 0
 
 	for digitPlace := range cardNumberDigits {
-		if digit, e := strconv.Atoi(cardNumberDigits[digitPlace]); e == nil {
-			if (digitPlace+1)%2 != 0 {
+		if digit, err := strconv.Atoi(cardNumberDigits[digitPlace]); err == nil {
+			if (digitPlace+1)%2 == 0 {
 				digit = digit * 2
 				if digit > 9 {
 					digit = digit - 9

@@ -38,19 +38,19 @@ func TestService_Card2Card(t *testing.T) {
 		Issuer:   "Visa",
 		Balance:  100_00,
 		Currency: "RUB",
-		Number:   "5106211234",
+		Number:   "510621006",
 	})
 	cardSvc.NewCard(&card.Card{
 		Issuer:   "Visa",
 		Balance:  100_00,
 		Currency: "RUB",
-		Number:   "5106215678",
+		Number:   "510621014",
 	})
 	cardSvc.NewCard(&card.Card{
 		Issuer:   "Visa",
 		Balance:  100_00,
 		Currency: "RUB",
-		Number:   "5106219012",
+		Number:   "1234",
 	})
 
 	tests := []struct {
@@ -66,8 +66,8 @@ func TestService_Card2Card(t *testing.T) {
 				TransferService: transferService,
 			},
 			args: args{
-				fromCard: "51062115",
-				toCard:   "51062123",
+				fromCard: "510621006",
+				toCard:   "510621014",
 				amount:   10_00,
 			},
 			wantTotal: 10_00,
@@ -79,8 +79,8 @@ func TestService_Card2Card(t *testing.T) {
 				TransferService: transferService,
 			},
 			args: args{
-				fromCard: "51062115",
-				toCard:   "51062123",
+				fromCard: "510621006",
+				toCard:   "510621014",
 				amount:   500_00,
 			},
 			wantTotal: 500_00,
@@ -92,8 +92,8 @@ func TestService_Card2Card(t *testing.T) {
 				TransferService: transferService,
 			},
 			args: args{
-				fromCard: "51062115",
-				toCard:   "90129",
+				fromCard: "510621006",
+				toCard:   "1234",
 				amount:   10_00,
 			},
 			wantTotal: 20_00,
@@ -105,8 +105,8 @@ func TestService_Card2Card(t *testing.T) {
 				TransferService: transferService,
 			},
 			args: args{
-				fromCard: "51062115",
-				toCard:   "90129",
+				fromCard: "510621006",
+				toCard:   "1234",
 				amount:   500_00,
 			},
 			wantTotal: 525_00,
@@ -118,8 +118,8 @@ func TestService_Card2Card(t *testing.T) {
 				TransferService: transferService,
 			},
 			args: args{
-				fromCard: "56789",
-				toCard:   "51062123",
+				fromCard: "1234",
+				toCard:   "510621006",
 				amount:   500_00,
 			},
 			wantTotal: 575_00,

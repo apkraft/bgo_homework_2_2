@@ -34,11 +34,11 @@ func NewService(cardSvc *card.Service, insideTheBank Fee, toAnotherBank Fee, bet
 	}
 }
 
-func (s *Service) Card2Card(fromCard, toCard string, amount int64) (totalWithdrawal int64, e error) {
+func (s *Service) Card2Card(fromCard, toCard string, amount int64) (totalWithdrawal int64, err error) {
 
 	if !s.CardSvc.LunaCardNumberCheck(fromCard) || !s.CardSvc.LunaCardNumberCheck(toCard) {
-		e = errInvalidCardNumber
-		return totalWithdrawal, e
+		err = errInvalidCardNumber
+		return totalWithdrawal, err
 	}
 
 	transferFromCard := s.CardSvc.FindCardByNumber(fromCard)
@@ -84,8 +84,9 @@ func (s *Service) calculateFee(fromCard, toCard *card.Card) *Fee {
 func (s *Service) totalWithdrawal(amount int64, fee *Fee) int64 {
 	finalFee := amount * fee.FeeInPercents / 100
 
-	if finalFee < fee.MinFeeInCopeks {
+	if finalFee <= fee.MinFeeInCopeks {
 		finalFee = fee.MinFeeInCopeks
 	}
+
 	return amount + finalFee
 }

@@ -29,27 +29,27 @@ func main() {
 		Issuer:   "510621",
 		Balance:  100_00,
 		Currency: "RUB",
-		Number:   "51062115",
+		Number:   "510621006",
 	})
 	cardSvc.NewCard(&card.Card{
 		Issuer:   "510621",
 		Balance:  100_00,
 		Currency: "RUB",
-		Number:   "51062123",
+		Number:   "510621014",
 	})
 
-	amount, status := transferSvc.Card2Card("51062115", "51062123", 10_00)
+	amount, status := transferSvc.Card2Card("510621006", "510621014", 10_00)
 	fmt.Printf("Внутри банка: сумма с комиссией - %v, статус - %v\n\n", amount, status)
 
-	amount, status = transferSvc.Card2Card("51062115", "56789", 10_00)
+	amount, status = transferSvc.Card2Card("510621014", "56789", 10_00)
 	fmt.Printf("В другой банк: сумма с комиссией - %v, статус - %v\n\n", amount, status)
 
 	amount, status = transferSvc.Card2Card("12349", "56789", 10_00)
 	fmt.Printf("Между другими банками: сумма с комиссией - %v, статус - %v\n\n", amount, status)
 
-	amount, status = transferSvc.Card2Card("51062115", "51062123", 500_00)
+	amount, status = transferSvc.Card2Card("510621006", "510621014", 500_00)
 	fmt.Printf("Недостаточно средств для перевода внутри банка: сумма с комиссией - %v, статус - %v\n\n", amount, status)
 
-	amount, status = transferSvc.Card2Card("51062115", "56789", 500_00)
+	amount, status = transferSvc.Card2Card("510621014", "56789", 500_00)
 	fmt.Printf("Недостаточно средств для перевода в другой банк: сумма с комиссией - %v, статус - %v\n\n", amount, status)
 }
